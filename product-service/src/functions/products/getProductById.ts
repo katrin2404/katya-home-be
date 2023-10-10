@@ -8,7 +8,7 @@ export const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof schema> =
         const { productId = '' } = event.pathParameters;
         const product: Product = getProductByIdService(productId);
 
-        return product ? formatJSONResponse({ ...product }) : formatJSONResponse({message: 'Product not found!!!'}, 404);
+        return product ? formatJSONResponse({ ...product }) : formatJSONResponse({message: 'Product not found!'}, 404);
     }
     catch ( err ) {
         return errorResponse( err );
