@@ -5,6 +5,7 @@
   "main": "serverless.ts",
   "scripts": {
     "start": "serverless offline start",
+    "deploy": "serverless deploy",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
