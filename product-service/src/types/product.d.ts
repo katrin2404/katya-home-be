@@ -6,3 +6,5 @@ export interface Product {
     logo: string,
     count: number
 }
+
+export type Products = Product[];

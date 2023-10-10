@@ -7,10 +7,16 @@ export const getProducts =  {
       http: {
         method: 'get',
         path: 'products',
+        responses: {
+          200: {
+            description: 'Successful API Response',
+            bodyType: 'Products',
+          },
+        },
         cors: true
       },
     },
-  ],
+  ]
 };
 
 export const getProductById =  {
@@ -21,7 +27,13 @@ export const getProductById =  {
         method: 'get',
         path: 'products/{productId}',
         cors: true,
-        request: { parameters: { paths: { productId: true }}}
+        request: { parameters: { paths: { productId: true }}},
+        responses: {
+          200: {
+            description: 'Successful API Response',
+            bodyType: 'Product',
+          },
+        },
       },
     },
   ],
