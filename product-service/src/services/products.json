@@ -1,0 +1,66 @@
+[
+  {
+    "count": 59,
+    "description": "Plain stoneware mug and saucer.",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80aa",
+    "price": 10,
+    "title": "Stoneware teacup",
+    "logo": "https://images.pexels.com/photos/1421177/pexels-photo-1421177.jpeg"
+  },
+  {
+    "count": 30,
+    "description": "Metal candlestick with a faceted stem and simple base.",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a0",
+    "price": 25,
+    "title": "Faceted metal candlestick",
+    "logo": "https://images.pexels.com/photos/6794578/pexels-photo-6794578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "count": 18,
+    "description": "Plaited cotton cushion cover. Cushion filling not included.",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a2",
+    "price": 40,
+    "title": "Woven cushion cover",
+    "logo": "https://images.pexels.com/photos/5825567/pexels-photo-5825567.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "count": 17,
+    "description": "Plain chenille blanket with fringed edges.",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a1",
+    "price": 35,
+    "title": "Chenille blamket",
+    "logo": "https://images.pexels.com/photos/1421176/pexels-photo-1421176.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "count": 37,
+    "description": "Round stoneware serving dish.",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a2",
+    "price": 16,
+    "title": "Round stoneware serving dish",
+    "logo": "https://images.pexels.com/photos/4791269/pexels-photo-4791269.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "count": 120,
+    "description": "Black tainless steel dessert spoon. Classic shiny design with thin handle.",
+    "id": "7567ec4b-b10c-48c5-9345-fc73348a80a1",
+    "price": 4,
+    "title": "Black dessert spoon",
+    "logo": "https://images.pexels.com/photos/4226794/pexels-photo-4226794.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "count": 59,
+    "description": "Plain duvet cover in 300-thread-count cotton sateen. Perfect for combining with other models.\nConcealed button fastening.\n\nSateen is a material that stands out due to its softness and luminous appearance. Delicate yet resistant, its subtle shine and pleasant texture make it a unique fabric.",
+    "id": "7567ec4b-b10c-48c5-9445-fc73c48a80a2",
+    "price": 80,
+    "title": "Cotton sateen duver cover",
+    "logo": "https://images.pexels.com/photos/3933240/pexels-photo-3933240.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "count": 53,
+    "description": "Chair made of ash wood, with a foldable design and contrast woven rattan seat and mobile back. Featuring felt pads on the legs to avoid scratching the floor. The product is delivered assembled and folded.",
+    "id": "7567ec4b-b10c-45c5-9345-fc73c48a80a1",
+    "price": 130,
+    "title": "Wood chair",
+    "logo": "https://images.pexels.com/photos/5913136/pexels-photo-5913136.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  }
+]
