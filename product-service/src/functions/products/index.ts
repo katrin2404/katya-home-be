@@ -11,7 +11,7 @@ export const getProducts =  {
         responses: {
           200: {
             description: 'Successful API Response',
-            bodyType: 'Products',
+            bodyType: 'ProductsListRes',
           },
         },
         cors: true
@@ -48,6 +48,7 @@ export const createProduct =  {
         method: 'post',
         path: 'products',
         cors: true,
+        bodyType: 'ProductPayload',
         request: {
           schemas: {
             'application/json': createProductSchema
@@ -56,7 +57,7 @@ export const createProduct =  {
         responses: {
           200: {
             description: 'Product created',
-            bodyType: 'Product',
+            bodyType: 'ProductCreationRes',
           },
         },
       },
