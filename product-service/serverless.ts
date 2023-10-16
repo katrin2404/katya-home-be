@@ -1,6 +1,12 @@
 import type { AWS } from '@serverless/typescript';
-
-import { getProducts, getProductById } from '@functions/products';
+import {
+    getProducts,
+    getProductById,
+    migrateProductsToDB,
+    migrateStocksToDB,
+    createProduct
+} from '@functions/products';
+import { REGION } from './src/constants';
 
 const serverlessConfiguration: AWS = {
     service: 'product-service',
@@ -9,14 +15,14 @@ const serverlessConfiguration: AWS = {
     provider: {
         name: 'aws',
         runtime: 'nodejs14.x',
-        region: 'eu-west-1',
+        region: REGION,
         stage: 'dev',
         environment: {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
         },
     },
-    functions: {getProducts, getProductById},
+    functions: { getProducts, getProductById, migrateProductsToDB, migrateStocksToDB, createProduct },
     package: {individually: true},
     custom: {
         autoswagger: {
