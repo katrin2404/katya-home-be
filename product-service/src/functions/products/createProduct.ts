@@ -1,10 +1,10 @@
 import { errorResponse, formatJSONResponse, ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { v4 as uuidv4 } from 'uuid';
-import { PRODUCTS_TABLE_NAME, REGION, STOCKS_TABLE_NAME } from '../../constants';
 import { createProductSchema } from '../../schemas/createProductSchema';
+import * as process from 'process';
 
 const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient({region: REGION});
+const dynamoDb = new AWS.DynamoDB.DocumentClient({region: process.env.REGION});
 
 const writeProductItem = async (body) => {
     const productId = uuidv4();
@@ -18,7 +18,7 @@ const writeProductItem = async (body) => {
                         price: body.price,
                         description: body.description
                     },
-                    TableName: PRODUCTS_TABLE_NAME
+                    TableName: process.env.DB_NAME_PRODUCTS
                 },
             },
             {
@@ -27,7 +27,7 @@ const writeProductItem = async (body) => {
                         product_id: productId,
                         count: body.count
                     },
-                    TableName: STOCKS_TABLE_NAME
+                    TableName: process.env.DB_NAME_STOCK
                 },
             }
         ],

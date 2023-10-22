@@ -6,7 +6,7 @@ import {
     migrateStocksToDB,
     createProduct
 } from '@functions/products';
-import { REGION } from './src/constants';
+import { PRODUCTS_TABLE_NAME, REGION, STOCKS_TABLE_NAME } from './src/constants';
 
 const serverlessConfiguration: AWS = {
     service: 'product-service',
@@ -18,6 +18,9 @@ const serverlessConfiguration: AWS = {
         region: REGION,
         stage: 'dev',
         environment: {
+            DB_NAME_PRODUCTS: PRODUCTS_TABLE_NAME,
+            DB_NAME_STOCK: STOCKS_TABLE_NAME,
+            REGION: REGION,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
         },

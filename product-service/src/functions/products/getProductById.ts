@@ -1,14 +1,14 @@
 import { errorResponse, formatJSONResponse, ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { Product, ProductDB, StockDB } from '../../types/product';
-import { PRODUCTS_TABLE_NAME, REGION, STOCKS_TABLE_NAME } from '../../constants';
 import { defaultSchema } from '../../schemas/defaultSchema';
+import * as process from 'process';
 
 interface ExpressionAttributeValues {
     [key: string]: string;
 }
 
 const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient({region: REGION});
+const dynamoDb = new AWS.DynamoDB.DocumentClient({region: process.env.REGION});
 const ExpressionAttributeKeyMap = {
     product: ':id',
     stock: ':product_id'
@@ -42,8 +42,8 @@ const joinData = (product: ProductDB, stock: StockDB): Product => ({
 export const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof defaultSchema> = async (event) => {
     try {
         const { productId = '' } = event.pathParameters;
-        const product: ProductDB = await scanForData(PRODUCTS_TABLE_NAME, KeyConditionExpressionMap.product, {[ExpressionAttributeKeyMap.product]: productId});
-        const stock: StockDB = await scanForData(STOCKS_TABLE_NAME, KeyConditionExpressionMap.stock, {[ExpressionAttributeKeyMap.stock]: productId});
+        const product: ProductDB = await scanForData(process.env.DB_NAME_PRODUCTS, KeyConditionExpressionMap.product, {[ExpressionAttributeKeyMap.product]: productId});
+        const stock: StockDB = await scanForData(process.env.DB_NAME_STOCK, KeyConditionExpressionMap.stock, {[ExpressionAttributeKeyMap.stock]: productId});
         const joinedResult = joinData(product, stock);
 
         return joinedResult ? formatJSONResponse({ ...joinedResult }) : formatJSONResponse({message: 'Product not found!'}, 404);

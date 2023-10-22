@@ -1,10 +1,10 @@
 import { errorResponse, formatJSONResponse, ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
-import { PRODUCTS_TABLE_NAME, REGION, STOCKS_TABLE_NAME } from '../../constants';
 import { Product, ProductDB, StockDB } from '../../types/product';
 import { defaultSchema } from '../../schemas/defaultSchema';
+import * as process from 'process';
 
 const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient({region: REGION});
+const dynamoDb = new AWS.DynamoDB.DocumentClient({region: process.env.REGION});
 
 const scanForData = async (tableName) => {
     const params = {
@@ -31,8 +31,8 @@ const joinData = (products: ProductDB[], stocks: StockDB[]): Product[] => {
 }
 export const getProducts: ValidatedEventAPIGatewayProxyEvent<typeof defaultSchema> = async (_event) => {
     try {
-        const products = await scanForData(PRODUCTS_TABLE_NAME);
-        const stocks = await scanForData(STOCKS_TABLE_NAME);
+        const products = await scanForData(process.env.DB_NAME_PRODUCTS);
+        const stocks = await scanForData(process.env.DB_NAME_STOCK);
         const joinedResult = joinData(products, stocks);
 
         return formatJSONResponse({
