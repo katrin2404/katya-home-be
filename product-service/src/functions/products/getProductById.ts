@@ -1,14 +1,52 @@
 import { errorResponse, formatJSONResponse, ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
-import schema from '@functions/products/schema';
-import { Product } from '../../types/product';
-import { getProductById  as getProductByIdService } from '../../services/products';
+import { Product, ProductDB, StockDB } from '../../types/product';
+import { PRODUCTS_TABLE_NAME, REGION, STOCKS_TABLE_NAME } from '../../constants';
+import { defaultSchema } from '../../schemas/defaultSchema';
 
-export const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+interface ExpressionAttributeValues {
+    [key: string]: string;
+}
+
+const AWS = require('aws-sdk');
+const dynamoDb = new AWS.DynamoDB.DocumentClient({region: REGION});
+const ExpressionAttributeKeyMap = {
+    product: ':id',
+    stock: ':product_id'
+};
+const KeyConditionExpressionMap = {
+    product: `id = ${ExpressionAttributeKeyMap.product}`,
+    stock: `product_id = ${ExpressionAttributeKeyMap.stock}`
+};
+const scanForData = async (tableName: string, keyConditionExpression: string, expressionAttributeValues: ExpressionAttributeValues) => {
+    const params = {
+        TableName: tableName,
+        KeyConditionExpression: keyConditionExpression,
+        ExpressionAttributeValues: expressionAttributeValues
+    };
+
+    try {
+        const result = await dynamoDb.query(params).promise();
+
+        return result.Items[0];
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const joinData = (product: ProductDB, stock: StockDB): Product => ({
+        ...product,
+        count: stock.count || 0
+    });
+
+
+export const getProductById: ValidatedEventAPIGatewayProxyEvent<typeof defaultSchema> = async (event) => {
     try {
         const { productId = '' } = event.pathParameters;
-        const product: Product = getProductByIdService(productId);
+        const product: ProductDB = await scanForData(PRODUCTS_TABLE_NAME, KeyConditionExpressionMap.product, {[ExpressionAttributeKeyMap.product]: productId});
+        const stock: StockDB = await scanForData(STOCKS_TABLE_NAME, KeyConditionExpressionMap.stock, {[ExpressionAttributeKeyMap.stock]: productId});
+        const joinedResult = joinData(product, stock);
 
-        return product ? formatJSONResponse({ ...product }) : formatJSONResponse({message: 'Product not found!'}, 404);
+        return joinedResult ? formatJSONResponse({ ...joinedResult }) : formatJSONResponse({message: 'Product not found!'}, 404);
     }
     catch ( err ) {
         return errorResponse( err );
