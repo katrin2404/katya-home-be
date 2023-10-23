@@ -20,7 +20,7 @@ const serverlessConfiguration: AWS = {
         environment: {
             DB_NAME_PRODUCTS: PRODUCTS_TABLE_NAME,
             DB_NAME_STOCK: STOCKS_TABLE_NAME,
-            REGION: REGION,
+            REGION,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
         },
