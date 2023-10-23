@@ -1,7 +1,7 @@
 import importProductsFile from '@functions/importProductsFile';
 import importFileParser from '@functions/importFileParser';
 import { AWS } from '@serverless/typescript';
-import { REGION } from './src/constants';
+import { BUCKET_NAME, PARSED_FILES_FOLDER, REGION, UPLOADED_FILES_FOLDER } from './src/constants';
 
 const serverlessConfiguration: AWS = {
   service: 'import-service',
@@ -18,7 +18,10 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      REGION
+      REGION,
+      BUCKET_NAME,
+      UPLOADED_FILES_FOLDER,
+      PARSED_FILES_FOLDER
     },
     iam: {
       role: {

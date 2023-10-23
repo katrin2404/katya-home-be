@@ -1,5 +1,5 @@
 import { handlerPath } from '@libs/handler-resolver';
-import { BUCKET_NAME } from '../../constants';
+import { BUCKET_NAME, UPLOADED_FILES_FOLDER } from '../../constants';
 import { AWS } from '@serverless/typescript';
 
 export default {
@@ -10,7 +10,7 @@ export default {
                 bucket: BUCKET_NAME,
                 event: 's3:ObjectCreated:*',
                 rules: [{
-                    prefix: 'uploaded/'
+                    prefix: `${UPLOADED_FILES_FOLDER}`
                 }],
                 existing: true
             },

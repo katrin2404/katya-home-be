@@ -1,20 +1,21 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { errorResponse, formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
-import schema from './schema';
 import { S3 } from 'aws-sdk';
-import { BUCKET_NAME, REGION } from '../../constants';
+import * as process from 'process';
+import schema from './schema';
+import { PUT_OPERATION } from '../../constants';
 
-const s3 = new S3({ region: REGION });
+const s3 = new S3({ region: process.env.REGION });
 export const importProductsFile: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   try {
     const params = {
-      Bucket: BUCKET_NAME,
-      Key: `uploaded/${event.queryStringParameters.name}`,
+      Bucket: process.env.BUCKET_NAME,
+      Key: `${process.env.UPLOADED_FILES_FOLDER}/${event.queryStringParameters.name}`,
       Expires: 60,
       ContentType: 'text/csv'
     };
-    const signedURL = await s3.getSignedUrlPromise('putObject', params);
+    const signedURL = await s3.getSignedUrlPromise(PUT_OPERATION, params);
 
     return formatJSONResponse({
       signedURL

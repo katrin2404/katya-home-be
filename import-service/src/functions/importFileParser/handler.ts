@@ -1,11 +1,11 @@
 import { errorResponse } from '@libs/api-gateway';
 import { S3 } from 'aws-sdk';
-import { REGION } from '../../constants';
 import { S3Event } from 'aws-lambda';
+import * as process from 'process';
 import * as console from 'console';
-const csv = require('csv-parser');
 
-const s3 = new S3({region: REGION});
+const csv = require('csv-parser');
+const s3 = new S3({region: process.env.REGION });
 const S3_OBJECT_KEY_SEPARATOR = '/';
 const CSV_PARSER_SEPARATOR = ';';
 const importFileParser = async (event: S3Event) => {
@@ -27,7 +27,7 @@ const importFileParser = async (event: S3Event) => {
             await s3.putObject({
                 Bucket: record.s3.bucket.name,
                 Body: JSON.stringify(chunks),
-                Key: `parsed/${file.replace('csv', 'json')}`,
+                Key: `${process.env.PARSED_FILES_FOLDER}/${file.replace('csv', 'json')}`,
                 ContentType: 'application/json'
             }).promise();
 
