@@ -1,7 +1,7 @@
 import { AWS } from '@serverless/typescript';
 
 const dynamoResources: AWS['resources']['Resources'] = {
-    Products: {
+    products: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
             TableName: 'products',
