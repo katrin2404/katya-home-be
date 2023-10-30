@@ -8,11 +8,12 @@ import { Product } from '../../types/product';
 const { SNS } = require('aws-sdk');
 const sns = new SNS();
 
-const createProducts = async (records: SQSRecord[]) => {
-    let creatingProductQueue;
+export const createProducts = async (records: SQSRecord[]) => {
+    let numberOfUploadedProducts;
     for (let record of records) {
         const products = JSON.parse(record.body);
-        creatingProductQueue = products.map(product => {
+        const creatingProductQueue = products.map(product => {
+            numberOfUploadedProducts = numberOfUploadedProducts + 1;
             return {
                 iterateSQSMessage: iterateSQSMessage(product),
                 writeProductItem: writeProductItem(product)
@@ -22,7 +23,7 @@ const createProducts = async (records: SQSRecord[]) => {
         await Promise.all(creatingProductQueue.map(item => iterateSQSMessage(item)));
     }
 
-    return creatingProductQueue;
+    return numberOfUploadedProducts;
 };
 
 const iterateSQSMessage = async (product: Product) => {
@@ -41,9 +42,9 @@ const iterateSQSMessage = async (product: Product) => {
 
 export const createBatchOfProducts = async (event: SQSEvent) => {
     try {
-        const creatingProductQueue = await createProducts(event.Records);
+        const numberOfUploadedProducts = await createProducts(event.Records);
         return formatJSONResponse({
-            message: `${creatingProductQueue} products have been created`
+            message: `${numberOfUploadedProducts} products have been uploaded`
         }, 204);
     }
     catch ( err ) {
