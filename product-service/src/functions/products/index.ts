@@ -65,6 +65,18 @@ export const createProduct =  {
   ],
 };
 
+export const catalogBatchProcess =  {
+  handler: `${handlerPath(__dirname)}/handler.catalogBatchProcess`,
+  events: [
+    {
+      sqs: {
+        batchSize: 5,
+        arn: `arn:aws:sqs:eu-west-1:877130784465:catalogItemsQueue`
+      }
+    }
+  ],
+};
+
 export const migrateProductsToDB =  {
   handler: `${handlerPath(__dirname)}/handler.middyfiedMigrateProducts`,
   events: [

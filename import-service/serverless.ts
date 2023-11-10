@@ -1,7 +1,7 @@
 import importProductsFile from '@functions/importProductsFile';
 import importFileParser from '@functions/importFileParser';
 import { AWS } from '@serverless/typescript';
-import { BUCKET_NAME, PARSED_FILES_FOLDER, REGION, UPLOADED_FILES_FOLDER } from './src/constants';
+import { BUCKET_NAME, CATALOG_ITEMS_QUEUE, PARSED_FILES_FOLDER, REGION, UPLOADED_FILES_FOLDER } from './src/constants';
 
 const serverlessConfiguration: AWS = {
   service: 'import-service',
@@ -18,6 +18,7 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      CATALOG_ITEMS_QUEUE,
       REGION,
       BUCKET_NAME,
       UPLOADED_FILES_FOLDER,
@@ -35,6 +36,11 @@ const serverlessConfiguration: AWS = {
             Effect: 'Allow',
             Action: ['s3:*'],
             Resource: 'arn:aws:s3:::katya-home-import-products/*'
+          },
+          {
+            Effect: 'Allow',
+            Action: ['sqs:*'],
+            Resource: 'arn:aws:sqs:eu-west-1:*:catalogItemsQueue'
           }
         ]
       }
