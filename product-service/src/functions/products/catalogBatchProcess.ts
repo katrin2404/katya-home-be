@@ -9,18 +9,19 @@ const { SNS } = require('aws-sdk');
 const sns = new SNS();
 
 export const createProducts = async (records: SQSRecord[]) => {
-    let numberOfUploadedProducts;
+    let numberOfUploadedProducts = 0;
     for (let record of records) {
         const products = JSON.parse(record.body);
-        const creatingProductQueue = products.map(product => {
-            numberOfUploadedProducts = numberOfUploadedProducts + 1;
-            return {
-                iterateSQSMessage: iterateSQSMessage(product),
-                writeProductItem: writeProductItem(product)
-            };
-        });
-        await Promise.all(creatingProductQueue.map(item => writeProductItem(item)));
-        await Promise.all(creatingProductQueue.map(item => iterateSQSMessage(item)));
+        for(let product of products) {
+            const response = await writeProductItem(product);
+
+            if (response.isError) {
+                console.log(response.error);
+            } {
+                numberOfUploadedProducts = numberOfUploadedProducts + 1;
+                await iterateSQSMessage(product);
+            }
+        }
     }
 
     return numberOfUploadedProducts;
@@ -42,6 +43,7 @@ const iterateSQSMessage = async (product: Product) => {
 
 export const createBatchOfProducts = async (event: SQSEvent) => {
     try {
+        console.log('event.Records: ', event.Records);
         const numberOfUploadedProducts = await createProducts(event.Records);
         return formatJSONResponse({
             message: `${numberOfUploadedProducts} products have been uploaded`

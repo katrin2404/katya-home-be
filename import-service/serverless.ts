@@ -36,6 +36,11 @@ const serverlessConfiguration: AWS = {
             Effect: 'Allow',
             Action: ['s3:*'],
             Resource: 'arn:aws:s3:::katya-home-import-products/*'
+          },
+          {
+            Effect: 'Allow',
+            Action: ['sqs:*'],
+            Resource: 'arn:aws:sqs:eu-west-1:*:catalogItemsQueue'
           }
         ]
       }
